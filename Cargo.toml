@@ -1,0 +1,18 @@
+[package]
+name = "beacon-light-client"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+libp2p = { version = "0.49.0", features = ["full"] }
+tokio = { version = "1.21.2", features = ["full"] }
+ruc = "3.0.0"
+serde_json = "1.0.79"
+serde = { version = "1.0.136", features = ["derive"] }
+async-trait = "0.1.58"
+lighthouse-types = { package= "types", git = "https://github.com/malefooo/lighthouse", branch = "unstable2" }
+
+reqwest = { version = "0.11", features = ["json", "native-tls-vendored", "blocking"] }
+web3 = "0.18.0"
