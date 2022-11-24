@@ -4,7 +4,10 @@
 [p2p]
     finality_update_topic = "light_client_finality_update"
     optimistic_update_topic = "light_client_optimistic_update"
-
 [rpc]
     url = "0.0.0.0"
     port = 8545
+[boostrap]
+    start = 0
+[redis]
+    addr = "redis://127.0.0.1/"

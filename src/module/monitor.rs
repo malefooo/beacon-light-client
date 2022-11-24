@@ -1,5 +1,9 @@
+use crate::module::config::LocalConfig;
 use crate::module::p2p_client::BeaconP2pClient;
 use crate::module::rpc_client::RpcClient;
+use crate::module::Message;
+use libp2p::dns::ResolveErrorKind::Msg;
+use lighthouse_types::light_client_bootstrap::LightClientBootstrap;
 use lighthouse_types::light_client_update::LightClientUpdate;
 use lighthouse_types::{
     chain_spec, BeaconBlock, BeaconBlockBodyBase, BeaconState, ChainSpec, Eth1Data, EthSpec,
@@ -7,13 +11,13 @@ use lighthouse_types::{
 };
 use ruc::*;
 use serde_json::Value;
-/// Listening to network data
-/// p2p: P2pMonitor, Responsible for getting new messages from p2p networks
-/// rpc: RpcMonitor, Responsible for polling for new messages from the rpc interface of the node-wide node
 use std::str::FromStr;
 use std::sync::Arc;
 use tokio::sync::mpsc::UnboundedSender;
 
+/// Listening to network data
+/// p2p: P2pMonitor, Responsible for getting new messages from p2p networks
+/// rpc: RpcMonitor, Responsible for polling for new messages from the rpc interface of the node-wide node
 pub enum Monitor {
     Rpc(RpcMonitor),
     P2p(P2pMonitor),
@@ -47,7 +51,7 @@ impl P2pMonitor {
 }
 
 pub struct RpcMonitor {
-    pub config: Value,
+    pub config: LocalConfig,
     pub client: Arc<RpcClient>,
 }
 
@@ -59,13 +63,38 @@ impl RpcMonitor {
         }
     }
 
-    pub async fn run(self, sender: UnboundedSender<LightClientUpdate<MainnetEthSpec>>) {}
+    pub async fn run<T: EthSpec>(self, sender: UnboundedSender<Message<T>>) -> Result<()> {
+        // 1. load bootstrap
+        let bootstrap = if self.config.bootstrap.start > 0 {
+            Message::Bootstrap(self.load_bootstrap_by_full_node().await.c(d!())?)
+        } else {
+            Message::Bootstrap(self.load_bootstrap_by_redis().await.c(d!())?)
+        };
+        // 1.1 seng bootstrap to light client
+        sender.send(bootstrap).c(d!())?;
 
-    pub async fn create_light_client_update() -> Result<LightClientUpdate<MainnetEthSpec>> {
+        // 2. loop send
+
+        // 3. create update
+        // 4. send update to light client
+
+        Ok(())
+    }
+
+    async fn create_light_client_update<T: EthSpec>(&self) -> Result<LightClientUpdate<T>> {
+        return Err(eg!());
+    }
+
+    async fn load_bootstrap_by_redis<T: EthSpec>(&self) -> Result<LightClientBootstrap<T>> {
+        return Err(eg!());
+    }
+
+    async fn load_bootstrap_by_full_node<T: EthSpec>(&self) -> Result<LightClientBootstrap<T>> {
         return Err(eg!());
     }
 }
 
+// TODO: The parameters in this test method are named incorrectly
 #[test]
 fn test1() {
     use lighthouse_types::chain_spec;

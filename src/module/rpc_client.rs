@@ -20,8 +20,8 @@ pub struct RpcClient {
 
 impl RpcClient {
     pub fn new() -> Result<Self> {
-        let transport = web3::transports::Http::new("addr").c(d!())?;
-        let web3 = web3::Web3::new(transport);
+        let transport = Http::new("addr").c(d!())?;
+        let web3 = Web3::new(transport);
         Ok(Self {
             beacon_http_client: Default::default(),
             base_url: "".to_string(),
