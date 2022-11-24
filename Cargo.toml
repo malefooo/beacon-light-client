@@ -13,6 +13,14 @@ serde_json = "1.0.79"
 serde = { version = "1.0.136", features = ["derive"] }
 async-trait = "0.1.58"
 lighthouse-types = { package= "types", git = "https://github.com/malefooo/lighthouse", branch = "unstable2" }
+lighthouse-bls = { package= "bls", git = "https://github.com/malefooo/lighthouse", branch = "unstable2" }
+lighthouse-ssz = { package= "eth2_ssz", git = "https://github.com/malefooo/lighthouse", branch = "unstable2" }
+lighthouse-ssz-types = { package= "eth2_ssz_types", git = "https://github.com/malefooo/lighthouse", branch = "unstable2" }
+lighthouse-ssz-derive = { package= "eth2_ssz_derive", git = "https://github.com/malefooo/lighthouse", branch = "unstable2" }
+once_cell = "1.16.0"
 
 reqwest = { version = "0.11", features = ["json", "native-tls-vendored", "blocking"] }
 web3 = "0.18.0"
+
+hex = "0.4.3"
+sha2 = { version = "0.10.6", default-features = false }

@@ -1,20 +1,22 @@
+use libp2p::futures::{select, StreamExt};
+use libp2p::gossipsub::{
+    Gossipsub, GossipsubEvent, GossipsubMessage, MessageAuthenticity, MessageId, Topic, TopicHash,
+    ValidationMode,
+};
+use libp2p::{gossipsub, identity, PeerId, Swarm};
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 use std::time::Duration;
-use libp2p::{gossipsub, identity, PeerId, Swarm};
-use libp2p::futures::{select, StreamExt};
-use libp2p::futures::stream::SelectNextSome;
-use libp2p::gossipsub::{Gossipsub, GossipsubEvent, GossipsubMessage, MessageAuthenticity, MessageId, Topic, TopicHash, ValidationMode};
 
-use libp2p::mdns::{MdnsConfig, MdnsEvent, GenMdns};
-use libp2p::swarm::SwarmEvent;
+use libp2p::gossipsub::Hasher as TopicHasher;
+use libp2p::mdns::TokioMdns;
+use libp2p::mdns::{MdnsConfig, MdnsEvent};
 use libp2p::swarm::NetworkBehaviour;
+use libp2p::swarm::SwarmEvent;
 use libp2p::NetworkBehaviour;
+use ruc::*;
 use tokio::io;
 use tokio::io::AsyncBufReadExt;
-use ruc::*;
-use libp2p::mdns::TokioMdns;
-use libp2p::gossipsub::Hasher as TopicHasher;
 
 #[derive(NetworkBehaviour)]
 pub struct MyBehaviour {
@@ -22,13 +24,13 @@ pub struct MyBehaviour {
     pub mdns: TokioMdns,
 }
 
-pub struct BeaconP2pClient{
+pub struct BeaconP2pClient {
     pub swarm: Swarm<MyBehaviour>,
     pub topic_hash: TopicHash,
 }
 
 #[derive(Debug, Clone)]
-pub struct Topic1{}
+pub struct Topic1 {}
 
 impl TopicHasher for Topic1 {
     fn hash(topic_string: String) -> TopicHash {
@@ -36,17 +38,17 @@ impl TopicHasher for Topic1 {
     }
 }
 
-
 impl BeaconP2pClient {
     pub async fn new(topic: &str) -> Result<Box<Self>> {
-
         // Create a random PeerId
         let local_key = identity::Keypair::generate_ed25519();
         let local_peer_id = PeerId::from(local_key.public());
         println!("Local peer id: {local_peer_id}");
 
         // Set up an encrypted DNS-enabled TCP Transport over the Mplex protocol.
-        let transport = libp2p::development_transport(local_key.clone()).await.c(d!())?;
+        let transport = libp2p::development_transport(local_key.clone())
+            .await
+            .c(d!())?;
         println!("1");
         // To content-address message, we can take the hash of message and use it as an ID.
         let message_id_fn = |message: &GossipsubMessage| {
@@ -64,8 +66,9 @@ impl BeaconP2pClient {
             .expect("Valid config");
         println!("3");
         // build a gossipsub network behaviour
-        let mut gossipsub = Gossipsub::new(MessageAuthenticity::Signed(local_key), gossipsub_config)
-            .expect("Correct configuration");
+        let mut gossipsub =
+            Gossipsub::new(MessageAuthenticity::Signed(local_key), gossipsub_config)
+                .expect("Correct configuration");
         println!("4");
         // Create a Gossipsub topic
         // let topic = Topic::new(topic.to_string());
@@ -81,15 +84,19 @@ impl BeaconP2pClient {
             Swarm::new(transport, behaviour, local_peer_id)
         };
         println!("7");
-        Ok(Box::new(Self{ swarm, topic_hash: topic.hash() }))
+        Ok(Box::new(Self {
+            swarm,
+            topic_hash: topic.hash(),
+        }))
     }
 
     pub async fn run(&mut self) {
-
         let mut stdin = io::BufReader::new(io::stdin()).lines();
         // stdin.next_line()
         println!("8");
-        self.swarm.listen_on("/ip4/0.0.0.0/tcp/0".parse().unwrap()).unwrap();
+        self.swarm
+            .listen_on("/ip4/0.0.0.0/tcp/0".parse().unwrap())
+            .unwrap();
 
         let r = self.swarm.select_next_some();
 
@@ -100,7 +107,7 @@ impl BeaconP2pClient {
                 line = stdin.next_line() => {
                     println!("10");
                     let line = line.unwrap().expect("stdin closed");
-                    self.swarm.behaviour_mut().gossipsub.publish(self.topic_hash.clone(), line.as_bytes());
+                    self.swarm.behaviour_mut().gossipsub.publish(self.topic_hash.clone(), line.as_bytes()).unwrap();
                 }
                 event = self.swarm.select_next_some() => {
                     println!("{:?}",event);
@@ -134,11 +141,13 @@ impl BeaconP2pClient {
 }
 
 #[test]
-fn test_beacon_p2p_client(){
+fn test_beacon_p2p_client() {
     let rt = tokio::runtime::Runtime::new().unwrap();
 
     rt.block_on(async {
-        let mut bpc = BeaconP2pClient::new("light_client_finality_update").await.unwrap();
+        let mut bpc = BeaconP2pClient::new("light_client_finality_update")
+            .await
+            .unwrap();
         bpc.run().await;
     });
 }
