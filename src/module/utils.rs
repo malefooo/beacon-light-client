@@ -23,7 +23,7 @@ pub async fn compute_period_at_slot<T: EthSpec>(
 
     let period = block
         .slot()
-        .epoch(MainnetEthSpec::slots_per_epoch())
+        .epoch(T::slots_per_epoch())
         .sync_committee_period(spec)
         .map_err(|e| eg!("{:?}", e))
         .c(d!())?;
@@ -124,4 +124,13 @@ pub fn verify_signature<T: EthSpec>(
         .fast_aggregate_verify(Hash256::from_slice(&signing_root), &pubkey_refs);
 
     Ok(verify)
+}
+
+pub fn all_zero_hash_list(input: usize) -> Vec<Hash256> {
+    let mut output = vec![];
+    let num = input.ilog2();
+    for _ in 0..num {
+        output.push(Hash256::zero());
+    }
+    output
 }
