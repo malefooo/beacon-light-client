@@ -276,11 +276,18 @@ name = "beacon-light-client"
 version = "0.1.0"
 dependencies = [
  "async-trait",
+ "bls",
+ "eth2_ssz",
+ "eth2_ssz_derive",
+ "eth2_ssz_types",
+ "hex",
  "libp2p",
+ "once_cell",
  "reqwest",
  "ruc",
  "serde",
  "serde_json",
+ "sha2 0.10.6",
  "tokio",
  "types",
  "web3",
@@ -361,7 +368,7 @@ dependencies = [
 [[package]]
 name = "bls"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "blst",
  "eth2_hashing",
@@ -431,7 +438,7 @@ checksum = "c1db59621ec70f09c5e9b597b220c7a2b43611f4710dc03ceb8748637775692c"
 [[package]]
 name = "cached_tree_hash"
 version = "0.1.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "eth2_hashing",
  "eth2_ssz",
@@ -501,12 +508,12 @@ dependencies = [
 [[package]]
 name = "compare_fields"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 
 [[package]]
 name = "compare_fields_derive"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "quote",
  "syn",
@@ -916,7 +923,7 @@ dependencies = [
 [[package]]
 name = "eth2_hashing"
 version = "0.3.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "cpufeatures",
  "lazy_static",
@@ -927,7 +934,7 @@ dependencies = [
 [[package]]
 name = "eth2_interop_keypairs"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "bls",
  "eth2_hashing",
@@ -942,7 +949,7 @@ dependencies = [
 [[package]]
 name = "eth2_serde_utils"
 version = "0.1.1"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "ethereum-types",
  "hex",
@@ -954,7 +961,7 @@ dependencies = [
 [[package]]
 name = "eth2_ssz"
 version = "0.4.1"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "ethereum-types",
  "itertools",
@@ -964,7 +971,7 @@ dependencies = [
 [[package]]
 name = "eth2_ssz_derive"
 version = "0.3.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -975,7 +982,7 @@ dependencies = [
 [[package]]
 name = "eth2_ssz_types"
 version = "0.2.2"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "derivative",
  "eth2_serde_utils",
@@ -1667,7 +1674,7 @@ dependencies = [
 [[package]]
 name = "int_to_bytes"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "bytes",
 ]
@@ -2452,7 +2459,7 @@ dependencies = [
 [[package]]
 name = "merkle_proof"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "eth2_hashing",
  "ethereum-types",
@@ -2709,9 +2716,9 @@ checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
 
 [[package]]
 name = "openssl"
-version = "0.10.42"
+version = "0.10.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "12fc0523e3bd51a692c8850d075d74dc062ccf251c0110668cbd921917118a13"
+checksum = "020433887e44c27ff16365eaa2d380547a94544ad509aff6eb5b6e3e0b27b376"
 dependencies = [
  "bitflags",
  "cfg-if",
@@ -2750,9 +2757,9 @@ dependencies = [
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.77"
+version = "0.9.78"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b03b84c3b2d099b81f0953422b4d4ad58761589d0229b5506356afca05a3670a"
+checksum = "07d5c8cb6e57b3a3612064d7b18b117912b4ce70955c2504d4b741c9e244b132"
 dependencies = [
  "autocfg",
  "cc",
@@ -3465,7 +3472,7 @@ checksum = "4501abdff3ae82a1c1b477a17252eb69cee9e66eb915c1abaa4f44d873df9f09"
 [[package]]
 name = "safe_arith"
 version = "0.1.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 
 [[package]]
 name = "salsa20"
@@ -3858,7 +3865,7 @@ dependencies = [
 [[package]]
 name = "swap_or_not_shuffle"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "eth2_hashing",
  "ethereum-types",
@@ -3931,7 +3938,7 @@ dependencies = [
 [[package]]
 name = "test_random_derive"
 version = "0.2.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "quote",
  "syn",
@@ -4148,7 +4155,7 @@ dependencies = [
 [[package]]
 name = "tree_hash"
 version = "0.4.1"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "eth2_hashing",
  "ethereum-types",
@@ -4158,7 +4165,7 @@ dependencies = [
 [[package]]
 name = "tree_hash_derive"
 version = "0.4.0"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "darling",
  "quote",
@@ -4225,7 +4232,7 @@ checksum = "dcf81ac59edc17cc8697ff311e8f5ef2d99fcbd9817b34cec66f90b6c3dfd987"
 [[package]]
 name = "types"
 version = "0.2.1"
-source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#4c2a4622eac5ec2d747ef46421a3a0a404e4e8ba"
+source = "git+https://github.com/malefooo/lighthouse?branch=unstable2#ff21ba2f695429c0f1430ac7597342d0772c9978"
 dependencies = [
  "bls",
  "cached_tree_hash",
